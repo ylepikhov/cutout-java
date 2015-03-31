@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>{?a}{?a}{?a}{/a}{/a}{/a}
+	<head>
+	{?head}
+		
+		<meta charset="UTF-8"/>
+		
+		<title>{title}</title>
+		
+	{/head}
+	
+	</head>
+
+	<body>
+	{?body}
+	
+		<header>
+		
+			<h1>{heading}</h1>
+			<nav>
+			{?navigation}
+				<ul>
+					{?links}
+					<li>
+						<a href="{href}">{text}</a>
+					</li>
+					{/links}
+				</ul>
+			{/navigation}
+			</nav>
+			
+			{?status}
+				{?timeout}<span class="warning">session timeout</span>{/timeout}
+				{?client_unsupported}<span class="warning">we don't support your client, sorry</span>{/client_unsupported}
+				{?error}<span class="error">oops...</span>{/error}
+			{/status}
+		</header>
+	
+		<main>
+			{?content}{/content}
+		</main>
+		
+		<footer>
+		{?footer}
+			
+			<small>{copyright}</small>
+		{/footer}
+		</footer>
+	{/body}
+	</body>
+</html>

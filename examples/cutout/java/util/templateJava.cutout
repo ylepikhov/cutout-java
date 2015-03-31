@@ -1,0 +1,80 @@
+package {packageName};
+
+import cutout.java.Renderer;
+import cutout.java.TemplateTransformer;
+
+{?templateClass}
+public abstract class {className} \{
+	
+	public final Parts parts;
+	
+	{?constructor}
+	protected {className}({?params}{delimiter = ,}{type} {name}{/params}) \{
+		
+		this.parts = new Parts({?partsConstructorArgs}{delimiter = ,}{value}{/partsConstructorArgs});
+	\}
+	{/constructor}
+	
+	{?applyMethod}
+	public abstract Renderer apply({?params}{delimiter = ,}{type} {name}{/params});
+	{/applyMethod}
+	
+	{?partsClass}
+	static public final class Parts \{
+		
+		{?fields}public final {type} {name};
+		{/fields}
+		
+		{?constructor}
+		private Parts({?params}{delimiter = ,}{type} {name}{/params}) \{
+			
+			{?fieldAssigments}this.{name} = {name};{/fieldAssigments}
+		\}
+		{/constructor}
+	\}
+	{/partsClass}
+		
+	static public Builder with() \{
+
+		return new Builder(this);
+	\}		
+	
+	{?builderClass}
+	static public final class Builder \{
+		
+		private final {className} template;
+		private final Params params = new Params();
+		
+		private Builder({className} template) \{
+		
+			this.template = template;
+		\}
+		
+		{?paramsClass}
+		static private class Params \{
+		
+			{?fields}{type} {name};
+			{/fields}
+		\}
+		{/paramsClass}
+		
+		{?builderMethods}
+		public Builder {name}(TemplateTransformer<{templateType},{paramType}> value) \{
+				
+			params.{name} = value.transform(parts.{name});
+			return this;
+		\}
+		{/builderMethods}
+			
+		{?applyMethod}
+		public Renderer apply() \{
+				
+			return template.apply({?args}{delimiter = ,}params.{name}{/args});
+		\}
+		{/applyMethod}
+	\}
+	{/builderClass}
+	
+	{?partsClassesMembers}static {?partClass}{/partClass}{/partsClassesMembers}
+\}
+{/templateClass}
