@@ -1,0 +1,40 @@
+package {packageName};
+
+import cutout.java.Renderer;
+import cutout.java.TemplateBase;
+import cutout.java.TextTemplate;
+
+{?templateClass}
+public abstract class {className} extends TemplateBase<{className}.Parts,{className}.Params> \{
+
+	protected {className}(Parts parts) \{
+		
+		super(parts);
+	\}
+	
+	{?partsClass}
+	static public final class Parts \{
+		
+		{?fields}public final {type} {name};
+		{/fields}
+		
+		{?constructor}
+		public Parts(
+		    {?params}{delimiter = ,}{type} {name}{/params}) \{
+			
+			{?fieldAssignments}this.{name} = {name};
+			{/fieldAssignments}
+		\}
+		{/constructor}
+	\}
+	{/partsClass}
+	
+	{?paramsInterface}
+	static public interface Params \{
+		
+		{?members}{returnType} {name}({paramType} {name});
+		{/members}
+	\}
+	{/paramsInterface}
+\}
+{/templateClass}

@@ -1,0 +1,61 @@
+package {packageName};
+
+import cutout.java.Renderer;
+import cutout.java.TextTemplate;
+
+import java.io.IOException;
+
+{?templateImplClass}
+public final class {className} extends {baseClassName} \{
+
+	static public final {baseClassName} INSTANCE = new {className}();
+
+    {?constructor}
+	private {className}() \{
+		
+		super(new Parts({?partsConstructorArgs}{delimiter = ,}{?arg}
+			{?part}{className}.INSTANCE{/part}
+			{empty = TextTemplate.EMPTY}
+			{?value}new TextTemplate({stringValue}){/value}
+		{/arg}
+		{/partsConstructorArgs}));
+
+	\}
+	{/constructor}
+
+    {?rendererClass}
+    static public final class TemplateRenderer extends Renderer \{
+
+        private final Parts parts;
+        private final Params params;
+
+        private TemplateRenderer(Parts parts, Params params) \{
+
+            this.parts = parts;
+            this.params = params;
+        \}
+
+        public void render(Appendable out) throws IOException \{
+
+            {?renderParts}{?type}
+                    {string = String}
+                    {renderer = Renderer}
+                {/type} _{name} = params.{name}(parts.{name});
+            {/renderParts}
+
+            {?renderStatements}
+                {?renderContent}out.append({stringValue});{/renderContent}
+                {?renderValue}out.append(_{name});{/renderValue}
+                {?renderTemplate}_{name}.render(out);{/renderTemplate}
+            {/renderStatements}
+        \}
+    \}
+    {/rendererClass}
+	
+	@Override
+	public Renderer apply(Params params) \{
+
+		return new TemplateRenderer(parts, params);
+	\}
+\}
+{/templateImplClass}

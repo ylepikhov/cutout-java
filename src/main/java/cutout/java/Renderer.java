@@ -8,13 +8,13 @@ public abstract class Renderer {
 
 	static public final Renderer EMPTY = new EmptyRenderer();
 
-    static class EmptyRenderer extends Renderer {
+    static private class EmptyRenderer extends Renderer {
 
         @Override
         public void render(Appendable out) throws IOException { }
     }
 
-    static class ConcatRenderer extends Renderer {
+    static private class ConcatRenderer extends Renderer {
 
         private final Renderer first;
         private final Renderer second;
@@ -32,7 +32,7 @@ public abstract class Renderer {
         }
     }
 
-    static class ConstRenderer extends Renderer {
+    static private class ConstRenderer extends Renderer {
 
         private CharSequence value;
 
@@ -52,10 +52,10 @@ public abstract class Renderer {
         return new ConstRenderer(value);
     }
 
-    public Renderer append(Renderer other) {
+    public Renderer append(Renderer right) {
 
-        if (this instanceof EmptyRenderer) return other;
-        if (other instanceof  EmptyRenderer) return this;
-        return new ConcatRenderer(this, other);
+        if (this instanceof EmptyRenderer) return right;
+        if (right instanceof  EmptyRenderer) return this;
+        return new ConcatRenderer(this, right);
     }
 }

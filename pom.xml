@@ -40,7 +40,7 @@
 						<id>Cutout</id>
 						<phase>generate-sources</phase>
 						<configuration>
-							<outputDirectory>src/generated/java/ru/croc/cutout/util</outputDirectory>
+							<outputDirectory>src/generated/java/cutout/java/util</outputDirectory>
 							<includes>
 								<include>**/Cutout*.g4</include>
 							</includes>

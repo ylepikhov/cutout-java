@@ -9,7 +9,13 @@ CUT_BLOCK_CLOSE_START	: '{/' -> mode(CUT_MODE) ;
 CUT_START		: '{' -> mode(CUT_MODE) ;
 
 CONTENT			: ~[\\{}]+ ;
-ESCAPE_SEQUENCE		: '\\' . ;
+fragment
+ESCAPE          : '\\' ;
+ESCAPE_SEQUENCE		: ESCAPE .
+{
+     String s = getText();
+     setText(s.substring(1));
+} ;
 
 mode CUT_MODE ;
 
@@ -33,5 +39,10 @@ VALUE_START		: '=' -> mode(VALUE_MODE), skip ;
 mode VALUE_MODE	;
 
 VALUE_CONTENT		: ~[\\{}]+ -> type(CONTENT) ;
-VALUE_ESCAPE_SEQUENCE	: '\\' . -> type(ESCAPE_SEQUENCE) ;
+VALUE_ESCAPE_SEQUENCE	: ESCAPE .
+{
+     String s = getText();
+     setText(s.substring(1));
+}
+-> type(ESCAPE_SEQUENCE) ;
 VALUE_CUT_END		: '}' -> type(CUT_END), mode(DEFAULT_MODE) ;
